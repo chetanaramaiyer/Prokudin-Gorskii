@@ -1,20 +1,20 @@
 # Prokudin-Gorskii
 Colorizing the Prokudin-Gorskii photo collection
 
-### In this project, glass plate negatives taken by photographer Sergei Mikhailovich Produkin-Gorskii are aligned to create colorized images.
+#### In this project, glass plate negatives taken by photographer Sergei Mikhailovich Produkin-Gorskii are aligned to create colorized images.
 
 ## Usage
 
-### To output all of the colored images, you should simply run all the cells in the jupyter notebook file main.ipynb. It runs through all the images in the /data folder and outputs the colored images for each of them.
+#### To output all of the colored images, you should simply run all the cells in the jupyter notebook file main.ipynb. It runs through all the images in the /data folder and outputs the colored images for each of them.
 
 ## General logic
 ## 1. Smaller .jpg images:
-### For the smaller jpg images, I first crop the green image by 10 percent. Then I align this cropped image against the full red image. By "align", I mean I iteratively go through each possible place that the cropped green image can be placed on the full red image. With each starting point, I calculate the mse for the cropped green image against the corresponding overlapping section of full red image. We return the overlappin section of the full red image for whichever alignment produces the lowest mse. Then, I repeat this process with the cropped green image with the full blue image. Using the cropped green image and the returned red and blue overlapping sections, we create a colored image.
+#### For the smaller jpg images, I first crop the green image by 10 percent. Then I align this cropped image against the full red image. By "align", I mean I iteratively go through each possible place that the cropped green image can be placed on the full red image. With each starting point, I calculate the mse for the cropped green image against the corresponding overlapping section of full red image. We return the overlappin section of the full red image for whichever alignment produces the lowest mse. Then, I repeat this process with the cropped green image with the full blue image. Using the cropped green image and the returned red and blue overlapping sections, we create a colored image.
 
 ## 2. Bigger .tif images:
-### For the bigger .tif images, I use the pyramid image layering strategy. This pyramid image layering strategy involves using a scaling factor to reduce the  pixel size of the image in each layer. The bottom layer of each pyramid is the original image with the original pixel size. As you go up the pyramid, I use a scaling factor of 2 to reduce the the pixel size of the image in each layer until I get to an image that has <= 50 pixels in width and height.
+#### For the bigger .tif images, I use the pyramid image layering strategy. This pyramid image layering strategy involves using a scaling factor to reduce the  pixel size of the image in each layer. The bottom layer of each pyramid is the original image with the original pixel size. As you go up the pyramid, I use a scaling factor of 2 to reduce the the pixel size of the image in each layer until I get to an image that has <= 50 pixels in width and height.
 
-### First, I crop the green image by ten percent. Then, I generate the pyramids for each of the red, blue and cropped green images. I align the cropped green layers against the red layers. This alignment involves first running the logic for small .jpg images on the top layer (the image with <= 50 pixels) to compute a general direction of where a good starting point is. Using that initial starting point, we then create a range of where the starting point for the next layer could be. For example if the starting point with the lowest MSE is at (1,1) in top layer, then the starting point could be between (0,0) and (2,2) in the next layer because I used a scaling factor of 2. Instead of computing the mse for all the starting points, we instead compute it for the starting points within that range, which saves a lot of running time. We continune this process until we get to the bottom layer, which contains the original image.
+#### First, I crop the green image by ten percent. Then, I generate the pyramids for each of the red, blue and cropped green images. I align the cropped green layers against the red layers. This alignment involves first running the logic for small .jpg images on the top layer (the image with <= 50 pixels) to compute a general direction of where a good starting point is. Using that initial starting point, we then create a range of where the starting point for the next layer could be. For example if the starting point with the lowest MSE is at (1,1) in top layer, then the starting point could be between (0,0) and (2,2) in the next layer because I used a scaling factor of 2. Instead of computing the mse for all the starting points, we instead compute it for the starting points within that range, which saves a lot of running time. We continune this process until we get to the bottom layer, which contains the original image.
 
 ## Functions
 ### 1. mse(image1, image2)
