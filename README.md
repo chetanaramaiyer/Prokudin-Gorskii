@@ -18,25 +18,25 @@ Colorizing the Prokudin-Gorskii photo collection
 
 ## Functions
 ### 1. mse(image1, image2)
-### This function takes in 2 images as parameters and computes the mse for those images. The mse is essentially the average of the squared sum difference of each pixel. This function helps us with alignment because it gives us a metric to evaluate which starting points are better than others.
+#### This function takes in 2 images as parameters and computes the mse for those images. The mse is essentially the average of the squared sum difference of each pixel. This function helps us with alignment because it gives us a metric to evaluate which starting points are better than others.
 
-###2. align_small(image1, image2)
-### This functiton takes in 2 images as parameters. In terms of "alignment", image 2 is always the bigger image and image1 is the cropped image. Therefore, we simply iterate over all the possible starting points for the image1 to be placed on image2. At each starting point, we compute the mse and maintain which starting point results in the alignment with the lowest mse. This function returns the minimum mse value, the cropped section of image2 that results in the alignment with the lowest mse and the starting x,y points that resulted in the alignemnt with the lowest mse.
+## 2. align_small(image1, image2)
+#### This functiton takes in 2 images as parameters. In terms of "alignment", image 2 is always the bigger image and image1 is the cropped image. Therefore, we simply iterate over all the possible starting points for the image1 to be placed on image2. At each starting point, we compute the mse and maintain which starting point results in the alignment with the lowest mse. This function returns the minimum mse value, the cropped section of image2 that results in the alignment with the lowest mse and the starting x,y points that resulted in the alignemnt with the lowest mse.
 
-###3. crop_ten(image)
-### This function takes in an image as a parameter. It crops ten percent of the image's width and height and returns that cropped image.
+## 3. crop_ten(image)
+#### This function takes in an image as a parameter. It crops ten percent of the image's width and height and returns that cropped image.
 
-###4. small_jpg_images(r,b,g)
-### This function takes in the separate r,b,g channels that are computed from tthe single large image. We first crop the green image and then we call align_small on the cropped green and blue to get the correct alignment of the blue image. We do the same for the green cropped and the red image. We return the correct alignment of the red and blue image, and the cropped green image.
+## 4. small_jpg_images(r,b,g)
+#### This function takes in the separate r,b,g channels that are computed from tthe single large image. We first crop the green image and then we call align_small on the cropped green and blue to get the correct alignment of the blue image. We do the same for the green cropped and the red image. We return the correct alignment of the red and blue image, and the cropped green image.
 
-###5. align_big(other_layers, base_layers)
-### This function takes in two parameters: the layers for the "base image"(which is just the layers for the green cropped image) and the layers for the "other images" (which is the layers for the red or blue image). We first call align_small on the highest layer of the base and other layers, which is the image with <=50 pixels. This generates the best starting points for the highest layer, which we use to set the range of pixels we should search to find the best starting points for the next layer. We stop once we get to the lowest layer, which contains the original image. This function returns the section of the red/blue image that aligns the best with the cropped green image.
+## 5. align_big(other_layers, base_layers)
+#### This function takes in two parameters: the layers for the "base image"(which is just the layers for the green cropped image) and the layers for the "other images" (which is the layers for the red or blue image). We first call align_small on the highest layer of the base and other layers, which is the image with <=50 pixels. This generates the best starting points for the highest layer, which we use to set the range of pixels we should search to find the best starting points for the next layer. We stop once we get to the lowest layer, which contains the original image. This function returns the section of the red/blue image that aligns the best with the cropped green image.
 
-###6. bigger_image(r,b,g)
-### This function takes in the separate r,b,g channels that are computed from tthe single large image. We first crop the green image. Then, we generate the pyramid layers for cropped green image, the red and blue image. We store those layers in three separate lists. Then, we align the red layers with the cropped green layers to find the correct alignment of the red image. We do the same to find the correct alignment of the blue image. We return the correct alignment of the red and blue image, and the cropped green image.
+## 6. bigger_image(r,b,g)
+#### This function takes in the separate r,b,g channels that are computed from tthe single large image. We first crop the green image. Then, we generate the pyramid layers for cropped green image, the red and blue image. We store those layers in three separate lists. Then, we align the red layers with the cropped green layers to find the correct alignment of the red image. We do the same to find the correct alignment of the blue image. We return the correct alignment of the red and blue image, and the cropped green image.
 
-###7. run_everything(imname)
-### This function takes in the name of the image and reads in the image, separates it into color channels. If the image name ends with .jpg, I call small_jpg_images and pass in the three channels. If the image name ends with .tif, I call bigger_images and pass in the three channels. Using the results, I display the images.
+## 7. run_everything(imname)
+#### This function takes in the name of the image and reads in the image, separates it into color channels. If the image name ends with .jpg, I call small_jpg_images and pass in the three channels. If the image name ends with .tif, I call bigger_images and pass in the three channels. Using the results, I display the images.
 
-###8. main()
-### This reads all the files in the input path (which is the data folder containing all the images) and calls run_everything on each image.
+## 8. main()
+#### This reads all the files in the input path (which is the data folder containing all the images) and calls run_everything on each image.
