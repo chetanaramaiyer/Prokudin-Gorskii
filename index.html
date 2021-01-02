@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Chetana Ramaiyer</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Scaffold - v2.0.0
+  * Template URL: https://bootstrapmade.com/scaffold-bootstrap-metro-style-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+      <div class="container d-flex">
+        <div class="logo mr-auto">
+          <ul>
+            <li><width ="100%;"><img src="assets/img/curlyhair.png"></a> </li>
+            <li><h1 style="font-size:100%;"><a href="index.html"><span>Chetana Ramaiyer</span></a></h1></li>
+          </ul>
+        </div>
+
+      </div>
+    </header><!-- End Header -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+      <div class="container">
+
+        <div> <p><br></p> <p><br></p> </div>
+        <div class="section-title" data-aos="fade-up">
+          <h1>Colorizing the Prokudin-Gorskii photo collection<br></h1>
+          <br></br>
+          <h3>Chetana Ramaiyer</h3>
+          <h5>CS 194-26: Computational Photography, Fall 2020 <br></h5>
+          <br></br>
+          <br></br>
+          <div class="section-image" data-aos="fade-up">
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="assets/img/red_lady.png" class="img-fluid" alt="" align="center">
+                  <figcaption>Red channel </figcaption>
+                  <p><br></p>
+              </div>
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="assets/img/green_lady.png" class="img-fluid" alt="" align="center">
+                  <figcaption> Green Channel </figcaption>
+              </div>
+
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="assets/img/blue_lady.png" class="img-fluid" alt="" align="center">
+                  <figcaption>Blue Channel </figcaption>
+                  <p><br></p>
+              </div>
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="out_path/lady.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption>Colored Image Output </figcaption>
+              </div>
+          </div>
+          <div class="section-image" data-aos="fade-up">
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="assets/img/red_mon.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption> Red channel</figcaption>
+                  <p><br></p>
+              </div>
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="assets/img/green_mon.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption> Green Channel</figcaption>
+              </div>
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="assets/img/blue_mon.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption> Blue Channel </figcaption>
+                  <p><br></p>
+              </div>
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="out_path/monastery.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption>Colored Image Output </figcaption>
+              </div>
+          </div>
+          <br></br>
+          <h3>Overview</h3>
+        </div>
+
+        <div class="overview" data-aos="fade-up">
+          <p>In the 20th century, a photographer named Sergei Mikhailovich Prokudin-Gorskii had an idea. He believed that color photography could be achieved if you record three exposures of every scene onto a glass plate using a red, a green, and a blue filter. He used a three-stack camera, with a different colored glass plate on each lense. Unfortunately, he wasn't able to see his project through. However, his RGB glass plate negatives have been digitized and made them available online.</p>
+          <p>The goal of this project was to take these glass plate negatives (which indivdually appear as black and white pictures) and output the colored image. Essentially, this allows us to see exactly what Sergei saw when he took those pictures in Russia over 50 years ago.</p>
+          <p>Combining these exposures enables us to see the original image in colorized form. Since he used a three-stack camera, each image has a slight offset in what it displays. This offset creates an obstacle because you can’t directly align the images on top of one another to retrieve the colored image. Therefore, we need to come up with an approach to deal with that offset.</p>
+        </div>
+
+        <br></br>
+        <br></br>
+        <div class="section-title" data-aos="fade-up">
+             <h3>Approach</h3>
+        </div>
+
+        <div class="overview" data-aos="fade-up">
+          <h4>Basic Alignment: Smaller .jpg images:</h4>
+          <br></br>
+          <p>My main approach for the smaller .jpg images is to crop one image and align the two other full images against the cropped image. By “align”, I mean exhaustively looking through the potential (x,y) starting positions where the cropped image could be placed on the full image and calculating the mse of the cropped image against the same overlapping region of the full image.</p>
+          <p>To begin, I cropped 10% from each edge of the green image, which means I would only calculate the mse in the middle 80% of each image. This helps because then the borders wouldn't interfere with alignment.</p>
+          <p>Then, I aligned this cropped green image against the full red image. The alignment returns the cropped section of the full red image for whichever alignment with the cropped green image produced the lowest mse. Then, I repeat this process with the cropped green image and the full blue image. Using the cropped green image and the aligned red and blue images, we create a complete colored image.</p>
+          <img src="assets/img/explanation.png" class="img-fluid" alt="" align="center">
+          <br></br>
+          <p> I ran into some issues with figuring out how to align the cropped green image against the full image. At first, I cropped the red and blue images and tried to align them against the base green image. This proved to be a more difficult approach because if the cropping cut off a significant part of the image, it would be harder to align the other images to the base. </p>
+        </div>
+        <br></br>
+        <div class="overview" data-aos="fade-up">
+          <h4>Basic Alignment Results: </h4>
+          <br></br>
+        </div>
+        <div class="section-image" data-aos="fade-up">
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/cathedral.jpg" class="img-fluid" alt="" align="center">
+                <figcaption>cathedral.jpg: R(38, 27) B(41, 39) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/monastery.jpg" class="img-fluid" alt="" align="center">
+                <figcaption>monastery.jpg: R(38, 28) B(41, 31) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/tobolsk.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> tobolsk.jpg: R(39, 30) B(43, 37) </figcaption>
+            </div>
+        </div>
+        <br></br>
+        <div class="overview" data-aos="fade-up">
+          <h4>Pyramid Alignment: Bigger .tif images:</h4>
+          <br></br>
+          <p>For the bigger .tif images, I use the pyramid alignment strategy. The idea behind this strategy is to first find the correct alignment on a smaller version of the image, so that you can cut down the search space for later iterations where you are working with bigger images. This algorithm works better with bigger images, so you can save running time and memory. </p>
+<p>This pyramid image layering strategy involves using a scaling factor to reduce the pixel size of the image in each layer. The bottom layer of each pyramid is the original image with the original pixel size. As you go up the pyramid, I use a scaling factor of 2 to reduce the pixel size of the image in each layer until I get to an image that has <= 50 pixels in width and height. </p>
+<p>To begin, I took the highest layer (lowest number of pixels – blurriest image) and used the previous strategy to exhaustively search for the optimum starting (x,y) points. Then, we use those optimum starting points to create a range of where the starting point for the next layer could be. The reason this works is because I used a scaling factor of 2, so with each layer, I have double the number of pixels, which means double the number of potential starting (x,y) points.</p>
+    <p>For example if we find the optiumum starting point for the highest layer is at (1,2) , then the starting point could be between (0,2) and (2,6) in the next layer. Width: the new range for potential x starting points is between (1-1)*2  and ((1+1)*2). Height: the new range for potential y starting points is between (2-1)*2  and ((2+1)*2). </p>
+<p>Instead of computing the mse for all the starting points, we instead compute it for the starting points within that range, which saves a lot of running time. We continune this process until we get to the bottom layer, which contains the original image. At that point, we have the optimum placement for the cropped green image against the full red and blue images so that the images line up properly. Using this placement, we create a colored image. </p>
+        </div>
+        <br></br>
+        <div class="overview" data-aos="fade-up">
+          <h4>Pyramid Alignment Results: </h4>
+          <br></br>
+        </div>
+        <div class="section-image" data-aos="fade-up">
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/castle.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> castle.tif: R(38, 27) B(41, 39) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/emir.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> emir.tif: R(353, 264) B(394, 370)</figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/harvesters.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> harvesters.jpg: R(371, 257) B(384, 381) </figcaption>
+            </div>
+        </div>
+        <div class="section-image" data-aos="fade-up">
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/icon.jpg" class="img-fluid" alt="" align="center">
+                <figcaption>icon.tif: R(369, 276) B(391, 365) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/onion_church.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> onion_church.tif: R(368, 265) B(405, 373) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/self_portrait.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> self_portrait.jpg: R(373, 227) B(410, 404) </figcaption>
+            </div>
+        </div>
+        <div class="section-image" data-aos="fade-up">
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/three_generations.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> three_generations.tif: R(374, 263) B(385, 374) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/train.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> train.tif: R(347, 281) B(380, 367) </figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/workshop.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> workshop.jpg: R(385, 269) B(374, 374) </figcaption>
+            </div>
+        </div>
+        <div class="section-image" data-aos="fade-up">
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/lady.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> lady.tif: R(373, 259) B(384, 377)</figcaption>
+                <p><br></p>
+            </div>
+            <div class="section-image-col" data-aos="fade-up">
+                <img src="out_path/melons.jpg" class="img-fluid" alt="" align="center">
+                <figcaption> melons.tif: R(373, 228) B(388, 406)  </figcaption>
+                <p><br></p>
+            </div>
+        </div>
+        <br></br>
+        <div class="overview" data-aos="fade-up">
+          <h4>Applied this technique on a few pictures from Prokudin-Gorskii collection: </h4>
+          <br></br>
+          <div class="section-image" data-aos="fade-up">
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="out_path/hills.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption> hills.tif: R(398, 258) B(362, 379)</figcaption>
+                  <p><br></p>
+              </div>
+              <div class="section-image-col" data-aos="fade-up">
+                  <img src="out_path/valley.jpg" class="img-fluid" alt="" align="center">
+                  <figcaption> valley.tif: R(394, 266) B(133, 639) </figcaption>
+                  <p><br></p>
+              </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+  </main><!-- End #main -->
+
+
+  <a href="#" class="back-to-top"><i class="bx bxs-up-arrow-alt"></i></a>
+
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+    <footer id="footer">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Scaffold</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/scaffold-bootstrap-metro-style-template/ -->
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+
+    </footer><!-- End Footer -->
+
+</body>
+
+</html>
